@@ -7,6 +7,7 @@ import (
 	"github.com/mia-burton/go-background-jobs/connectors"
 	"golang.org/x/sync/semaphore"
 	"log"
+	"runtime"
 	"time"
 )
 
@@ -159,7 +160,7 @@ func (j *JobsHandler) setConfig(conf *Config) {
 		RetryInterval:     10 * time.Second,
 		PollingInterval:   2 * time.Second,
 		MaxCompletedJob:   100,
-		MaxConcurrentJobs: 3,
+		MaxConcurrentJobs: runtime.NumCPU(),
 		OnJobsSuccess:     func() {},
 		OnJobsFailure:     func() {},
 	}
