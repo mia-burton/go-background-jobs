@@ -17,6 +17,7 @@ The `NewRedisJobsHandler` function returns a `JobsHandler` object. To complete t
     func (j *JobsHandler) Init(queues Queues, conf *Config)
 
 The `queues` argument is a map that associates a job name (string) with a job execution function. The `conf` argument is a pointer to a Config struct, which contains the configuration settings for the package.
+if you pass `nil` instead of `conf`, a default configuration will be set.
 
 ## Adding Jobs
 To add a job to be executed at runtime, use the `AddJob` function on the `JobsHandler` object.
@@ -53,7 +54,6 @@ The `Config` struct contains the following configuration settings for the packag
 `OnJobsSuccess:` A callback function to be executed when all jobs are successfully completed.
 
 `OnJobsFailure:` A callback function to be executed when any job fails.
-
 
 ## Examples
 Here is an example of how to use the package:
