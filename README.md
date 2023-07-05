@@ -39,8 +39,8 @@ The `Config` struct contains the following configuration settings for the packag
         RetryInterval     time.Duration
         MaxCompletedJob   int
         MaxConcurrentJobs int
-        OnJobsSuccess     func(job Job)
-        OnJobsFailure     func(job Job)
+        OnJobsSuccess     func(queueName string, job Job)
+        OnJobsFailure     func(queueName string, job Job)
     }
 
 `PollingInterval:` The interval at which the package polls the job queues for new jobs.
@@ -104,11 +104,12 @@ Here is an example of how to use the package:
         return nil
     }
     
-    func onJobsSuccess() {
+    func onJobsSuccess(queueName string, job Job) {
         // Handle successful completion of all jobs
+        // For example: log.Prinf("%s finished with success, job id: %s", queueName, job.Id)
     }
     
-    func onJobsFailure() {
+    func onJobsFailure(queueName string, job Job) {
         // Handle failure of any job
     }
 
