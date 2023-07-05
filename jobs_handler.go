@@ -125,7 +125,7 @@ func (j *JobsHandler) startExecution(jobName string) {
 					// Remove element from in-progress queue
 					_ = j.connector.RemoveById(queueInProgress, jobInThread.Id)
 					retry = 0
-					j.config.OnJobsSuccess()
+					j.config.OnJobsSuccess(jobNameInThread, jobInThread)
 					break
 				} else if retry >= jobInThread.MaxRetry {
 					// Function failed after maxRetry tries, move element to failed queue
@@ -135,7 +135,7 @@ func (j *JobsHandler) startExecution(jobName string) {
 					// Remove element from in-progress queue
 					_, _ = j.connector.RemoveFirstElement(queueInProgress)
 					retry = 0
-					j.config.OnJobsFailure()
+					j.config.OnJobsFailure(jobNameInThread, jobInThread)
 					break
 				} else {
 					// Function failed, try again
@@ -161,8 +161,8 @@ func (j *JobsHandler) setConfig(conf *Config) {
 		PollingInterval:   2 * time.Second,
 		MaxCompletedJob:   100,
 		MaxConcurrentJobs: runtime.NumCPU(),
-		OnJobsSuccess:     func() {},
-		OnJobsFailure:     func() {},
+		OnJobsSuccess:     func(queueName string, job Job) {},
+		OnJobsFailure:     func(queueName string, job Job) {},
 	}
 
 	if conf != nil {
@@ -170,11 +170,11 @@ func (j *JobsHandler) setConfig(conf *Config) {
 	}
 
 	if conf.OnJobsSuccess == nil {
-		j.config.OnJobsSuccess = func() {}
+		j.config.OnJobsSuccess = func(queueName string, job Job) {}
 	}
 
 	if conf.OnJobsFailure == nil {
-		j.config.OnJobsFailure = func() {}
+		j.config.OnJobsFailure = func(queueName string, job Job) {}
 	}
 }
 

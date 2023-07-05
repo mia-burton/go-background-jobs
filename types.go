@@ -9,8 +9,8 @@ type Config struct {
 	RetryInterval     time.Duration
 	MaxCompletedJob   int
 	MaxConcurrentJobs int
-	OnJobsSuccess     func()
-	OnJobsFailure     func()
+	OnJobsSuccess     func(queueName string, job Job)
+	OnJobsFailure     func(queueName string, job Job)
 }
 
 type Job struct {

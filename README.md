@@ -39,8 +39,8 @@ The `Config` struct contains the following configuration settings for the packag
         RetryInterval     time.Duration
         MaxCompletedJob   int
         MaxConcurrentJobs int
-        OnJobsSuccess     func()
-        OnJobsFailure     func()
+        OnJobsSuccess     func(job Job)
+        OnJobsFailure     func(job Job)
     }
 
 `PollingInterval:` The interval at which the package polls the job queues for new jobs.
@@ -63,7 +63,7 @@ Here is an example of how to use the package:
     import (
     "time"
     
-        "github.com/mia-burton/go-background-jobs"
+        jobs "github.com/mia-burton/go-background-jobs"
     )
     
     func main() {
