@@ -7,11 +7,15 @@ import (
 	"strconv"
 )
 
-func RedisConnection(host string, port string, pwd string) *redis.Client {
+func RedisConnection(host string, port string, pwd string, db *int) *redis.Client {
+	defaultDb := 0
+	if db == nil {
+		db = &defaultDb
+	}
 	return redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", host, port),
 		Password: pwd,
-		DB:       0,
+		DB:       *db,
 	})
 }
 

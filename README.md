@@ -10,7 +10,7 @@ To install the package, run the following command:
 ## Initialization
 To use the package, you need to initialize it by calling the `NewRedisJobsHandler` function to create a `JobsHandler` object. This function requires the Redis connection parameters (host, port, and password) to be passed as arguments.
 
-    func NewRedisJobsHandler(host string, port string, pwd string) JobsHandler
+    func NewRedisJobsHandler(host string, port string, pwd string, db *int) JobsHandler
 
 The `NewRedisJobsHandler` function returns a `JobsHandler` object. To complete the initialization, call the `Init` function on the `JobsHandler` object. This function requires two arguments: `queues` and `conf`.
 
@@ -81,7 +81,7 @@ Here is an example of how to use the package:
             OnJobsFailure:     onJobsFailure,
         }
     
-        handler := jobs.NewRedisJobsHandler("localhost", "6379", "password")
+        handler := jobs.NewRedisJobsHandler("localhost", "6379", "password", nil)
         handler.Init(queues, conf)
     
         // Add jobs at runtime
