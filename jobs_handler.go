@@ -182,8 +182,8 @@ func newJob(id string, data interface{}, maxRetry int) Job {
 	return Job{Id: id, Data: data, Timestamp: time.Now(), MaxRetry: maxRetry}
 }
 
-func NewRedisJobsHandler(host string, port string, pwd string) JobsHandler {
-	client := connectors.RedisConnection(host, port, pwd)
+func NewRedisJobsHandler(host string, port string, pwd string, db *int) JobsHandler {
+	client := connectors.RedisConnection(host, port, pwd, db)
 	redisConnector := connectors.NewRedisConnector(context.Background(), client)
 	return JobsHandler{connector: redisConnector}
 }
